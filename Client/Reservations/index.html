@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Reservations/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="Reservations/script.js" defer></script>
+    <title>Springfest 2023 Reservations</title>
+</head>
+<body>
+    <h1>Reservations</h1>
+    <div class="input-area">
+        <p><u>Activity:</u></p>
+        <select id="activity" tabindex="0">
+            <option value="haunted-house">Haunted House</option>
+            <option value="escape-game">Escape Game</option>
+            <option value="asseto-corsa">Asseto Corsa</option>
+            <option value="call-of-duty">Call Of Duty</option>
+            <option value="fifa">FIFA</option>
+            <option value="mario-kart">Mario Kart</option>
+            <option value="rocket-league">Rocket League</option>
+        </select>
+        <p><u>Student IDs:</u></p>
+        <div id="ids-container">
+            <input class="id" placeholder="ID" type="number">
+            <input class="id" placeholder="ID" type="number">
+            <input class="id" placeholder="ID" type="number">
+            <input class="id" placeholder="ID" type="number">
+        </div>
+        <p><u>Timeslot:</u></p>
+        <select id="timeslot" tabindex="0">
+            <option value="1682584200000">10:30</option>
+            <option value="1682584200000">10:33</option>
+            <option value="1682584200000">10:39</option>
+            <option value="1682584200000">10:42</option>
+            <option value="1682584200000">10:45</option>
+            <option value="1682584200000">10:48</option>
+            <option value="1682584200000">10:51</option>
+            <option value="1682584200000">10:54</option>
+            <option value="1682584200000">10:57</option>
+            <option value="1682584200000">11:00</option>
+        </select>
+        <div id="submit-btn" tabindex="0">Submit</div>
+    </div>
+</body>
+</html>

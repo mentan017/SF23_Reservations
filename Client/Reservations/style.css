@@ -1,0 +1,50 @@
+body{
+    min-height: 100vh;
+}
+h1{
+    text-align: center;
+    font-size: 4rem;
+    margin: 50px;
+}
+.input-area{
+    width: 800px;
+    font-size: 2rem;
+    margin: auto;
+}
+.input-area > p{
+    font-size: 1.8rem;
+    text-align: center;
+    margin: 15px;
+    margin-top: 30px;
+}
+#activity, #timeslot{
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    padding: 15px;
+    border-radius: 10px;
+}
+#ids-container{
+    display: flex;
+    justify-content: space-evenly;
+    column-gap: 20px;
+    row-gap: 20px;
+    flex-wrap: wrap;
+    margin: 30px;
+}
+.id{
+    width: 200px;
+    text-align: center;
+    font-size: 2rem;
+    padding: 15px;
+    border-radius: 10px;
+    margin: auto;
+}
+#submit-btn{
+    width: max-content;
+    padding: 15px 30px;
+    border-radius: 15px;
+    border: solid 4px black;
+    margin: 40px auto;
+    cursor: pointer;
+}

@@ -1,0 +1,43 @@
+body{
+    min-height: 100vh;
+}
+h1{
+    text-align: center;
+    font-size: 4rem;
+    margin: 50px;
+}
+#input-area{
+    width: 800px;
+    font-size: 2rem;
+    margin: auto;
+}
+#team-input{
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    padding: 15px;
+    border-radius: 10px;
+}
+#submit-btn{
+    width: max-content;
+    padding: 15px 30px;
+    border-radius: 15px;
+    border: solid 4px black;
+    margin: 40px auto;
+    cursor: pointer;
+}
+#reservations{
+    width: 800px;
+    margin: auto;
+}
+.reservation{
+    width: calc(100% - 64px);
+    font-size: 2rem;
+    padding: 5px 28px;
+    border-radius: 10px;
+    border: solid 4px black;
+    margin: 20px 0;
+}
+.reservation p{
+    margin: 15px 0;
+}
