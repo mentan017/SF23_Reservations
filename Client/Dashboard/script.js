@@ -21,6 +21,9 @@ async function SubmitTeam(){
         }else if(Team == 'escape-game'){
             document.title = 'Escape game dashboard';
             document.getElementById("title").innerHTML = 'Escape game reservations';
+        }else if(Team == 'vr-goggles'){
+            document.title = 'VR goggles dashboard';
+            document.getElementById("title").innerHTML = 'VR goggles reservations';
         }else if(Team == 'games'){
             document.title = 'Games dashboard';
             document.getElementById("title").innerHTML = 'Games reservations';

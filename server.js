@@ -85,7 +85,8 @@ app.post('/get-timeslots', async function(req, res){
             call_of_duty: [],
             fifa: [],
             mario_kart: [],
-            rocket_league: []
+            rocket_league: [],
+            vr_goggles: []
         };
         for(var i=0; i<Reservations.length; i++){
             switch(Reservations[i].Activity){
@@ -110,8 +111,10 @@ app.post('/get-timeslots', async function(req, res){
                 case 'rocket-league':
                     response.rocket_league.push(Reservations[i].Timeslot);
                     break;
-                }
+                case 'vr-goggles':
+                    response.vr_goggles.push(Reservations[i].Timeslot);
             }
+        }
         res.status(200).send(response);
     }catch(e){
         console.log(e);
@@ -128,6 +131,9 @@ app.post('/get-dashboard', async function(req, res){
             res.status(200).send(Reservations);
         }else if(team == 'escape-game'){
             var Reservations = await ReservationModel.find({Activity: 'escape-game', Timeslot: {$gte: (currentTime.getTime()-(10*60*1000))}}, null, {sort: {Timeslot: 1}});
+            res.status(200).send(Reservations);
+        }else if(team == 'vr-goggles'){
+            var Reservations = await ReservationModel.find({Activity: 'vr-goggles', Timeslot: {$gte: (currentTime.getTime()-(10*60*1000))}}, null, {sort: {Timeslot: 1}});
             res.status(200).send(Reservations);
         }else{ //team == games
             var Reservations = await ReservationModel.find({Activity: {$in: ['asseto-corsa', 'call-of-duty', 'fifa', 'mario-kart', 'rocket-league']}, Timeslot: {$gte: (currentTime.getTime()-(10*60*1000))}}, null, {sort: {Timeslot: 1}});

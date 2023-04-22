@@ -1,13 +1,13 @@
 var CurrentActivity = 'haunted-house';
 //Set the taken timeslots
 var slots_haunted_house = [];
-var slots_escape_game = []
-var slots_asseto_corsa = []
-var slots_call_of_duty = []
-var slots_fifa = []
-var slots_mario_kart = []
-var slots_rocket_league = []
-
+var slots_escape_game = [];
+var slots_asseto_corsa = [];
+var slots_call_of_duty = [];
+var slots_fifa = [];
+var slots_mario_kart = [];
+var slots_rocket_league = [];
+var slots_vr_goggles = [];
 
 //Socket connection
 var socket = io();
@@ -25,6 +25,10 @@ document.getElementById("activity").addEventListener("change", function(e){
         }
     }else if(activity == 'escape-game'){
         for(var i=0; i<6; i++){
+            document.getElementById("ids-container").innerHTML += `<input class="id" placeholder="ID" type="number">`;
+        }
+    }else if(activity == 'vr-goggles'){
+        for(var i=0; i<3; i++){
             document.getElementById("ids-container").innerHTML += `<input class="id" placeholder="ID" type="number">`;
         }
     }else{
@@ -87,6 +91,9 @@ async function GetTimeslots(){
         for(var i=0; i<responseData.rocket_league.length; i++){
             slots_rocket_league.push(responseData.rocket_league[i]);
         }
+        for(var i=0; i<responseData.vr_goggles.length; i++){
+            slots_vr_goggles.push(responseData.vr_goggles);
+        }
     }
     UpdateTimeslots();
 }
@@ -114,6 +121,10 @@ function UpdateTimeslots(){
             break;
         case 'rocket-league':
             invalidTimeslots = slots_rocket_league;
+            break;
+        case 'vr-goggles':
+            invalidTimeslots = slots_vr_goggles;
+            slotlength = 10 * 60 * 1000;
             break;
     }
     //Update the timeslots
@@ -160,8 +171,10 @@ socket.on('timeslot', function(response){
             slots_mario_kart.push(parseInt(response.Timeslot));
             break;
         case 'rocket-league':
-            slots_rocket_league.push(parseInt(response.timeslot));
+            slots_rocket_league.push(parseInt(response.Timeslot));
             break;
+        case 'vr-goggles':
+            slots_vr_goggles.push(parseInt(response.Timeslot));
     }
     if(CurrentActivity == response.Activity){
         UpdateTimeslots();
