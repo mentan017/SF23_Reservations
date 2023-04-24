@@ -61,6 +61,25 @@ async function Submit(){
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({activity: CurrentActivity, ids: ids, timeslot: timeslot, socketId: socket.id})
         });
+        if(response.status == 200){
+            var responseData = await response.json();
+            window.alert("Successfully made the reservation");
+            var ids_elements = document.getElementsByClassName("id");
+            for(var i=0; i<ids_elements.length; i++){
+                ids_elements[i].value = '';
+            }
+        }else if(response.status == 401){
+            var responseData = await response.json();
+            if(responseData == "invalid_user"){
+                window.alert(`The students ${responseData.ids} already participated to this activity`);
+            }else if(responseData == "taken_slot"){
+                var d = new Date();
+                d.setTime(responseData.timeslot);
+                window.alert(`Couldn't make the reservation at ${d.getHours}:${d.getMinutes}`);
+            }
+        }else if(response.status == 500){
+            window.alert("Server error!");
+        }
     }
 }
 async function GetTimeslots(){
@@ -106,6 +125,7 @@ function UpdateTimeslots(){
             break;
         case 'escape-game':
             invalidTimeslots = slots_escape_game;
+            slotlength = 5 * 60 * 1000;
             break;
         case 'asseto-corsa':
             invalidTimeslots = slots_asseto_corsa;
@@ -178,20 +198,5 @@ socket.on('timeslot', function(response){
     }
     if(CurrentActivity == response.Activity){
         UpdateTimeslots();
-    }
-});
-socket.on('invalid_user', function(response){
-    window.alert(`The students ${response} already participated to this activity`);
-});
-socket.on('taken_slot', function(response){
-    var d = new Date();
-    d.setTime(response);
-    window.alert(`Couldn't make the reservation at ${d.getHours}:${d.getMinutes}`);
-});
-socket.on('success_reservation', function(response){
-    window.alert('Successfully made the reservation');
-    var ids_elements = document.getElementsByClassName("id");
-    for(var i=0; i<ids_elements.length; i++){
-        ids_elements[i].value = '';
     }
 });

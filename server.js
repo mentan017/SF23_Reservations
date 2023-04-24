@@ -23,34 +23,6 @@ class Queue{
         (this.tasks).push(task);
         if(this.tasks.length == 1){
             while(this.tasks.length > 0){
-                var currentTask = this.tasks[0];
-                //Check that none of the students have already done a reservation in this activity
-                var AlreadyParticipated = [];
-                for(var i=0; i<(currentTask.ids).length; i++){
-                    if(await ReservationModel.exists({Activity: currentTask.activity, StudentIDS:{$in: (currentTask.ids[i])}})) AlreadyParticipated.push(currentTask.ids[i]);
-                }
-                //Check that the timeslot is available
-                var AvailableSlot = true;
-                if(await ReservationModel.exists({Activity: currentTask.activity, Timeslot: currentTask.timeslot})) AvailableSlot = false;
-                if(AlreadyParticipated.length > 0){
-                    //Send to socket id that a user already participated
-                    io.to(currentTask.socketId).emit("invalid_user", AlreadyParticipated);
-                }else if(!AvailableSlot){
-                    io.to(currentTask.socketId).emit("taken_slot", currentTask.timeslot);
-                }else{
-                    //Save the reservation
-                    var NewReservation = new ReservationModel({
-                        UUID: uuidv4(),
-                        StudentIDS: currentTask.ids,
-                        Activity: currentTask.activity,
-                        Timeslot: currentTask.timeslot
-                    });
-                    await NewReservation.save();
-                    //Send to socket id that the operation was successful
-                    io.to(currentTask.socketId).emit("success_reservation");
-                    //Send socket that timeslot has been taken
-                    io.sockets.emit("timeslot", NewReservation);
-                }
                 (this.tasks).shift();
             }
         }
@@ -145,8 +117,35 @@ app.post('/get-dashboard', async function(req, res){
     }
 });
 app.put('/make-reservation', async function(req, res){
-    res.sendStatus(200);
-    queue.push(req.body);
+    var currentTask = req.body;
+    //Check that none of the students have already done a reservation in this activity
+    var AlreadyParticipated = [];
+    for(var i=0; i<(currentTask.ids).length; i++){
+        if(await ReservationModel.exists({Activity: currentTask.activity, StudentIDS:{$in: (currentTask.ids[i])}})) AlreadyParticipated.push(currentTask.ids[i]);
+    }
+    //Check that the timeslot is available
+    var AvailableSlot = true;
+    if(await ReservationModel.exists({Activity: currentTask.activity, Timeslot: currentTask.timeslot})) AvailableSlot = false;
+    if(AlreadyParticipated.length > 0){
+        //Send to socket id that a user already participated
+        res.status(401).send({error: "invalid_user", ids: AlreadyParticipated});
+    }else if(!AvailableSlot){
+        res.status(401).send({error: "taken_slot", timeslot: currentTask.timeslot});
+    }else{
+        //Save the reservation
+        var NewReservation = new ReservationModel({
+            UUID: uuidv4(),
+            StudentIDS: currentTask.ids,
+            Activity: currentTask.activity,
+            Timeslot: currentTask.timeslot
+        });
+        await NewReservation.save();
+        //Send to socket id that the operation was successful
+        res.sendStatus(200);
+        //Send socket that timeslot has been taken
+        io.sockets.emit("timeslot", NewReservation);
+    }
+
 });
 
 //Start the server
