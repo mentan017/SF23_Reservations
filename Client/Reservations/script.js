@@ -62,7 +62,6 @@ async function Submit(){
             body: JSON.stringify({activity: CurrentActivity, ids: ids, timeslot: timeslot, socketId: socket.id})
         });
         if(response.status == 200){
-            var responseData = await response.json();
             window.alert("Successfully made the reservation");
             var ids_elements = document.getElementsByClassName("id");
             for(var i=0; i<ids_elements.length; i++){
