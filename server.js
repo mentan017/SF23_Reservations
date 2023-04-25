@@ -14,22 +14,6 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-//Create the Queue class
-class Queue{
-    constructor(tasks){
-        this.tasks = tasks;
-    }
-    async push(task){
-        (this.tasks).push(task);
-        if(this.tasks.length == 1){
-            while(this.tasks.length > 0){
-                (this.tasks).shift();
-            }
-        }
-    }
-}
-var queue = new Queue([]);
-
 //Set configuration
 app.use(express.static(__dirname + '/Client'));
 app.use(express.json());
@@ -53,10 +37,11 @@ app.post('/get-timeslots', async function(req, res){
         var response = {
             haunted_house: [],
             escape_game: [],
-            asseto_corsa: [],
             call_of_duty: [],
             fifa: [],
+            flight_simulator: [],
             mario_kart: [],
+            mortal_kombat: [],
             rocket_league: [],
             vr_goggles: []
         };
@@ -68,17 +53,20 @@ app.post('/get-timeslots', async function(req, res){
                 case 'escape-game':
                     response.escape_game.push(Reservations[i].Timeslot);
                     break;
-                case 'asseto-corsa':
-                    response.asseto_corsa.push(Reservations[i].Timeslot);
-                    break;
                 case 'call-of-duty':
                     response.call_of_duty.push(Reservations[i].Timeslot);
                     break;
                 case 'fifa':
                     response.fifa.push(Reservations[i].Timeslot);
                     break;
+                case 'flight-simulator':
+                    response.flight_simulator.push(Reservations[i].Timeslot);
+                    break;
                 case 'mario-kart':
                     response.mario_kart.push(Reservations[i].Timeslot);
+                    break;
+                case 'mortal_kombat':
+                    response.mortal_kombat.push(Reservations[i].Timeslot);
                     break;
                 case 'rocket-league':
                     response.rocket_league.push(Reservations[i].Timeslot);
@@ -152,3 +140,6 @@ app.put('/make-reservation', async function(req, res){
 server.listen(PORT, function(){
     console.log(`Springfest reservation system listening on port: ${PORT}`)
 });
+
+//Remove Assetto corsa
+//Add Mortal Kombat and Flight simulator
