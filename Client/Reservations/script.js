@@ -70,9 +70,9 @@ async function Submit(){
             }
         }else if(response.status == 401){
             var responseData = await response.json();
-            if(responseData == "invalid_user"){
+            if(responseData.error == "invalid_user"){
                 window.alert(`The students ${responseData.ids} already participated to this activity`);
-            }else if(responseData == "taken_slot"){
+            }else if(responseData.error == "taken_slot"){
                 var d = new Date();
                 d.setTime(responseData.timeslot);
                 window.alert(`Couldn't make the reservation at ${d.getHours}:${d.getMinutes}`);
