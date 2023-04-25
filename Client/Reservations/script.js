@@ -20,20 +20,20 @@ document.getElementById("activity").addEventListener("change", function(e){
     document.getElementById("ids-container").innerHTML = "";
     var activity = document.getElementById("activity").value;
     CurrentActivity = activity;
-    if(activity == 'mortal-kombat'){
+    if(activity == 'flight-simulator'){
+        document.getElementById("ids-container").innerHTML += `<input class="id" placeholder="ID" type="number">`;
+    }else if((activity == 'mortal-kombat') || (activity == 'rocket-league')){
         for(var i=0; i<2; i++){
-            document.getElementById("ids-container").innerHTML += `<input class="id" placeholder="ID" type="number">`;
-        }
-    }else if(activity == 'escape-game'){
-        for(var i=0; i<6; i++){
             document.getElementById("ids-container").innerHTML += `<input class="id" placeholder="ID" type="number">`;
         }
     }else if(activity == 'vr-goggles'){
         for(var i=0; i<3; i++){
             document.getElementById("ids-container").innerHTML += `<input class="id" placeholder="ID" type="number">`;
         }
-    }else if(activity == 'flight-simulator'){
-        document.getElementById("ids-container").innerHTML += `<input class="id" placeholder="ID" type="number">`;
+    }else if(activity == 'escape-game'){
+        for(var i=0; i<6; i++){
+            document.getElementById("ids-container").innerHTML += `<input class="id" placeholder="ID" type="number">`;
+        }
     }else{
         for(var i=0; i<4; i++){
             document.getElementById("ids-container").innerHTML += `<input class="id" placeholder="ID" type="number">`;
@@ -134,21 +134,27 @@ function UpdateTimeslots(){
             break;
         case 'call-of-duty':
             invalidTimeslots = slots_call_of_duty;
+            slotlength = 5 * 60 * 1000;
             break;
         case 'fifa':
             invalidTimeslots = slots_fifa;
+            slotlength = 3 * 60 * 1000;
             break;
         case 'flight-simulator':
             invalidTimeslots = slots_flight_simulator
+            slotlength = 15 * 60 * 1000;
             break;
         case 'mario-kart':
             invalidTimeslots = slots_mario_kart;
+            slotlength = 6 * 60 * 1000;
             break;
         case 'mortal-kombat':
             invalidTimeslots = slots_mortal_kombat;
+            slotlength = 6 * 60 * 1000;
             break;
         case 'rocket-league':
             invalidTimeslots = slots_rocket_league;
+            slotlength = 6 * 60 * 1000;
             break;
         case 'vr-goggles':
             invalidTimeslots = slots_vr_goggles;
@@ -206,6 +212,7 @@ socket.on('timeslot', function(response){
             break;
         case 'vr-goggles':
             slots_vr_goggles.push(parseInt(response.Timeslot));
+            break;
     }
     if(CurrentActivity == response.Activity){
         UpdateTimeslots();

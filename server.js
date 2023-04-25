@@ -96,7 +96,7 @@ app.post('/get-dashboard', async function(req, res){
             var Reservations = await ReservationModel.find({Activity: 'vr-goggles', Timeslot: {$gte: (currentTime.getTime()-(10*60*1000))}}, null, {sort: {Timeslot: 1}});
             res.status(200).send(Reservations);
         }else{ //team == games
-            var Reservations = await ReservationModel.find({Activity: {$in: ['asseto-corsa', 'call-of-duty', 'fifa', 'mario-kart', 'rocket-league']}, Timeslot: {$gte: (currentTime.getTime()-(10*60*1000))}}, null, {sort: {Timeslot: 1}});
+            var Reservations = await ReservationModel.find({Activity: {$in: ['call-of-duty', 'fifa', 'flight-simulator', 'mario-kart', 'mortal-kombat', 'rocket-league']}, Timeslot: {$gte: (currentTime.getTime()-(10*60*1000))}}, null, {sort: {Timeslot: 1}});
             res.status(200).send(Reservations);
         }
     }catch(e){
