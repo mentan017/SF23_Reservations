@@ -124,41 +124,51 @@ async function GetTimeslots(){
 function UpdateTimeslots(){
     var invalidTimeslots = [];
     var slotlength = 3 * 60 * 1000; //Change this according to the activity
+    var offset = 0;
     switch(CurrentActivity){
         case 'haunted-house':
             invalidTimeslots = slots_haunted_house;
+            var offset = 0;
             break;
         case 'escape-game':
             invalidTimeslots = slots_escape_game;
             slotlength = 5 * 60 * 1000;
+            var offset = 0;
             break;
         case 'call-of-duty':
             invalidTimeslots = slots_call_of_duty;
             slotlength = 5 * 60 * 1000;
+            var offset = 0;
             break;
         case 'fifa':
             invalidTimeslots = slots_fifa;
             slotlength = 3 * 60 * 1000;
+            var offset = 0;
             break;
         case 'flight-simulator':
             invalidTimeslots = slots_flight_simulator
             slotlength = 15 * 60 * 1000;
+            var offset = 0;
             break;
         case 'mario-kart':
             invalidTimeslots = slots_mario_kart;
             slotlength = 6 * 60 * 1000;
+            var offset = 0;
             break;
         case 'mortal-kombat':
             invalidTimeslots = slots_mortal_kombat;
             slotlength = 6 * 60 * 1000;
+            var offset = 0;
             break;
         case 'rocket-league':
             invalidTimeslots = slots_rocket_league;
             slotlength = 6 * 60 * 1000;
+            var offset = 0;
             break;
         case 'vr-goggles':
             invalidTimeslots = slots_vr_goggles;
             slotlength = 10 * 60 * 1000;
+            var offset = 0;
             break;
     }
     //Update the timeslots
@@ -167,7 +177,7 @@ function UpdateTimeslots(){
     var timeslots = [];
     var StartTime = new Date(`${currentTime.getMonth()+1} ${currentTime.getDate()}, ${currentTime.getFullYear()} 10:30:00`);
     var EndTime = new Date(`${currentTime.getMonth()+1} ${currentTime.getDate()}, ${currentTime.getFullYear()} 14:30:00`);
-    var nextSlot = currentTime.getTime() + (slotlength - ((currentTime.getTime() - StartTime.getTime())%slotlength));
+    var nextSlot = currentTime.getTime() + (slotlength - ((currentTime.getTime() - StartTime.getTime() + offset)%slotlength));
     while((timeslots.length < 10) && (nextSlot < EndTime.getTime())){
         if(!(invalidTimeslots.includes(nextSlot))){
             timeslots.push(nextSlot);
